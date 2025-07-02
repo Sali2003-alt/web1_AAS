@@ -1,0 +1,201 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebSA1.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+
+        <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+    <link rel="stylesheet" href="assets/Nunito/nunito-font.css">
+
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+   
+
+
+        <!-- validacion -->
+        <script src="assets/js/jquery.validate.min.js' %}"></script>
+        <script src="assets/js/jquery.validate.js"></script>
+        <!-- mensajes elegantes -->
+        <link rel="stylesheet" href="assets/css/iziToast.css">
+        <script src="assets/js/iziToast.min.js"></script>
+
+    <style>
+
+<style>
+
+
+    .form-label,
+    .form-control,
+    .form-select,
+    .btn {
+        font-size: 1rem; 
+    }
+    form {
+        font-size: 18px;
+    }
+
+ 
+    form label,
+    .form-label {
+        font-size: 18px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="email"],
+    form input[type="number"],
+    form textarea,
+    form select,
+    .form-control,
+    .form-select {
+        font-size: 17px;
+        width: 100%;
+        max-width: 600px;
+        padding: 10px; 
+        box-sizing: border-box;
+    }
+
+ 
+    form button,
+    .btn,
+    input[type="submit"],
+    input[type="button"] {
+        font-size: 17px;
+    }
+
+        .sidebar-menu .menu li a,
+    .sidebar-menu .menu li span,
+    .sidebar-title {
+        font-size: 18px;
+    }
+
+
+    .sidebar-menu .menu li a i {
+        font-size: 20px;
+        margin-right: 8px;
+    }
+</style>
+
+
+
+
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+        <%--MENSAJE PARA EL INSERTADO EXITOSAMENTE--%>
+<script>
+    // Mensaje de éxito (verde)
+    function mostrarExito(mensaje) {
+        iziToast.success({
+            title: 'Éxito',
+            message: mensaje,
+            position: 'topRight'
+        });
+    }
+
+    // Mensaje de error (rojo)
+    function alert(mensaje) {
+        iziToast.error({
+            title: 'Error',
+            message: mensaje,
+            position: 'topRight'
+        });
+    }
+</script>
+
+
+        <div class="container">
+    <div id="sidebar" class="active">
+        <div class="sidebar-wrapper active">
+            <div class="sidebar-header">
+                <div class="d-flex justify-content-between">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="assets/images/logo/logo4.png" alt="Logo" class="img-fluid mb-4" style="width: 200px; height: auto;" srcset="">
+                        </a>
+                    </div>
+                    <div class="toggler">
+                        <a href="#" class="sidebar-hide d-xl-none d-block">
+                            <i class="bi bi-x bi-middle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="menu">
+                    <li class="sidebar-title">Menu</li>
+
+                    <li class="sidebar-item active ">
+                        <a href="Default.aspx" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-title">Formulario &amp; Tablas</li>
+
+                    <li class="sidebar-item">
+                        <a href="Cat_predio.aspx" class='sidebar-link'>
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>Predio</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+        </div>
+    </div>
+</div>
+
+
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
+            </footer>
+        </div>
+
+    </form>
+</body>
+</html>
