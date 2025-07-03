@@ -45,7 +45,7 @@
             <asp:TextBox ID="txtAreaTotalConst" runat="server" CssClass="form-control" />
         </div>
         <div class="form-group mb-3">
-            <label>Fondo Relativo:</label>
+            <label>Fondo Relativo :</label>
             <asp:TextBox ID="txtFondoRelativo" runat="server" CssClass="form-control" />
         </div>
         <div class="form-group mb-3">
