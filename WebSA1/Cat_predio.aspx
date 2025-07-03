@@ -3,6 +3,27 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+    <!-- Referencias necesarias para Leaflet y dibujo -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    
+    <style>
+        #map { 
+            height: 400px; 
+            margin-bottom: 20px; 
+            z-index: 1;
+        }
+        .map-container { 
+            margin-bottom: 30px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+        }
+        .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M17 15.7V13h2v4.5c0 .8-.7 1.5-1.5 1.5H13v-2h2.7l-3.2-3.2-2.8 2.8L5 9.3V13H3V6.5C3 5.7 3.7 5 4.5 5H11v2H8.3l5.2 5.2 2.8-2.8L17 15.7z"/></svg>') !important;
+        }
+    </style>
     <div id="main">
         <header class="mb-3">
             <a href="#" class="burger-btn d-block d-xl-none">
@@ -21,7 +42,20 @@
             </section>
         </div>
 
-
+        <!-- Sección del Mapa - AÑADIR ESTO ANTES DEL PANEL -->
+            <div class="card mb-4 map-container">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Ubicación Geográfica del Predio</h5>
+                </div>
+                <div class="card-body">
+                    <div id="map"></div>
+                    <div class="mt-3">
+                        <label>Geometría (WKT):</label>
+                        <asp:TextBox ID="txtGeometriaWKT" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" />
+                        <small class="form-text text-muted">Geometría en formato WKT. Puede editarla directamente o dibujar en el mapa.</small>
+                    </div>
+                </div>
+            </div>
 
 
         <div class="container py-5">
@@ -133,6 +167,163 @@
                     <asp:TextBox ID="txtFechaModificacion" runat="server" CssClass="form-control" Placeholder="yyyy-MM-dd" />
                 </div>
 
+                 <div class="form-group mb-3">
+                    <label>Num Habitantes:</label>
+                    <asp:TextBox ID="txtNumHabitantes" runat="server" CssClass="form-control" MaxLength="128" />
+                </div>
+                 <div class="form-group mb-3">
+                    <label>Propietario Anterior:</label>
+                    <asp:TextBox ID="txtPropietarioAnterior" runat="server" CssClass="form-control" MaxLength="128" />
+                </div>
+                  <div class="form-group mb-3">
+                    <label>Clasificacion Vivienda:</label>
+                    <asp:TextBox ID="txtClasificacionVivienda" runat="server" CssClass="form-control" MaxLength="128" />
+                </div>
+
+                <h5>Más Información</h5>
+
+                    <div class="form-group mb-3">
+                        <label>Carta Topográfica:</label>
+                        <asp:TextBox ID="txtCartaTopografica" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Foto Aérea:</label>
+                        <asp:TextBox ID="txtFotoAerea" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Manzana ID:</label>
+                        <asp:TextBox ID="txtManId" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Número de Familias:</label>
+                        <asp:TextBox ID="txtNumFamilias" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Porcentaje Dominio:</label>
+                        <asp:TextBox ID="txtPorcentajeDominio" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Detalle Dominio:</label>
+                        <asp:TextBox ID="txtDetalleDominio" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Tipo Mixto:</label>
+                        <asp:TextBox ID="txtTipoMixto" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Valor Tipo Mixto:</label>
+                        <asp:TextBox ID="txtValorTipoMixto" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Linderos Definidos:</label>
+                        <asp:TextBox ID="txtLinderosDefinidos" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Área Terreno Anterior:</label>
+                        <asp:TextBox ID="txtAreaTerrenoAnterior" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Localización Otros:</label>
+                        <asp:TextBox ID="txtLocalizacionOtros" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Bien Mostrenco:</label>
+                        <asp:TextBox ID="txtBienMostrenco" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>En Conflicto:</label>
+                        <asp:TextBox ID="txtEnConflicto" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Área Terreno Gráfico:</label>
+                        <asp:TextBox ID="txtAreaTerGrafico" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Propietario Desconocido:</label>
+                        <asp:TextBox ID="txtPropietarioDesconocido" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Área Terreno Alfanumérico:</label>
+                        <asp:TextBox ID="txtAreaTerAlfa" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Dominio Detalle:</label>
+                        <asp:TextBox ID="txtDominioDetalle" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Dirección Principal:</label>
+                        <asp:TextBox ID="txtDireccionPrincipal" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Área Construcción Alfanumérico:</label>
+                        <asp:TextBox ID="txtAreaConstAlfa" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Tipo de Vivienda:</label>
+                        <asp:TextBox ID="txtTipoVivienda" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Número de Celulares:</label>
+                        <asp:TextBox ID="txtNumCelulares" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Modalidad PH:</label>
+                        <asp:TextBox ID="txtModalidadPH" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Alicuota Total:</label>
+                        <asp:TextBox ID="txtAlicuotaTotal" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Tipo PH:</label>
+                        <asp:TextBox ID="txtTipoPH" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Observación PH:</label>
+                        <asp:TextBox ID="txtObservacionPH" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Hipoteca GAD:</label>
+                        <asp:TextBox ID="txtHipotecaGAD" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Régimen PH:</label>
+                        <asp:TextBox ID="txtRegimenPH" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Prorrateo Título:</label>
+                        <asp:TextBox ID="txtProrrateoTitulo" runat="server" CssClass="form-control" />
+                    </div>
+
+
+
 
                 <div class="d-flex justify-content-between">
                     <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
@@ -174,6 +365,7 @@
                     <asp:TemplateField HeaderText="Acciones">
                         <ItemTemplate>
                             <div class="d-flex justify-content-center gap-2">
+                                
                                 <asp:ImageButton ID="btn_modificar" runat="server" ImageUrl="img/lapiz.png"
                                     ToolTip="Editar" Height="28" Width="28"
                                     CommandName="Modificar" CommandArgument='<%# Eval("pre_id") %>' />
@@ -191,7 +383,145 @@
         </div>
 
     </div>
-  
+     <script>
+         // Inicializar el mapa con coordenadas más genéricas
+         var map = L.map('map').setView([-1.8312, -78.1834], 6); // Coordenadas centradas en Ecuador
 
+         // Capa base de OpenStreetMap
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+         }).addTo(map);
 
+         // Grupo para las formas dibujadas
+         var drawnItems = new L.FeatureGroup();
+         map.addLayer(drawnItems);
+
+         // Configuración de controles de dibujo
+         var drawControl = new L.Control.Draw({
+             position: 'topright',
+             draw: {
+                 polygon: {
+                     allowIntersection: false,
+                     showArea: true,
+                     metric: true,
+                     shapeOptions: {
+                         color: '#3388ff',
+                         fillColor: '#3388ff',
+                         fillOpacity: 0.2
+                     }
+                 },
+                 rectangle: {
+                     shapeOptions: {
+                         color: '#3388ff',
+                         fillColor: '#3388ff',
+                         fillOpacity: 0.2
+                     }
+                 },
+                 circle: false,
+                 polyline: false,
+                 marker: false
+             },
+             edit: {
+                 featureGroup: drawnItems,
+                 remove: true
+             }
+         });
+         map.addControl(drawControl);
+
+         // Evento cuando se crea una forma
+         map.on(L.Draw.Event.CREATED, function (e) {
+             var type = e.layerType,
+                 layer = e.layer;
+
+             drawnItems.addLayer(layer);
+
+             // Convertir a GeoJSON y luego a WKT
+             var geoJSON = layer.toGeoJSON();
+             var wkt = geoJSONToWKT(geoJSON.geometry);
+             document.getElementById('<%= txtGeometriaWKT.ClientID %>').value = wkt;
+
+            // Centrar el mapa en la forma
+            map.fitBounds(layer.getBounds());
+        });
+
+         // Evento cuando se edita una forma
+         map.on('draw:edited', function (e) {
+             var layers = e.layers;
+             layers.eachLayer(function (layer) {
+                 var geoJSON = layer.toGeoJSON();
+                 var wkt = geoJSONToWKT(geoJSON.geometry);
+                 document.getElementById('<%= txtGeometriaWKT.ClientID %>').value = wkt;
+            });
+        });
+
+         // Evento cuando se elimina una forma
+         map.on('draw:deleted', function (e) {
+             document.getElementById('<%= txtGeometriaWKT.ClientID %>').value = '';
+        });
+
+        // Función para convertir GeoJSON a WKT (simplificada)
+        function geoJSONToWKT(geoJSON) {
+            if (geoJSON.type === 'Polygon') {
+                var coords = geoJSON.coordinates[0].map(c => c.reverse().join(' ')).join(', ');
+                return 'POLYGON((' + coords + '))';
+            } else if (geoJSON.type === 'MultiPolygon') {
+                var polygons = geoJSON.coordinates.map(poly => 
+                    '(' + poly[0].map(c => c.reverse().join(' ')).join(', ') + ')'
+                ).join(', ');
+                return 'MULTIPOLYGON(' + polygons + ')';
+            }
+            return '';
+        }
+
+        // Función para cargar geometría existente
+        function cargarGeometriaExistente() {
+            var wkt = document.getElementById('<%= txtGeometriaWKT.ClientID %>').value;
+            if (wkt && wkt.trim() !== '') {
+                try {
+                    // Convertir WKT a GeoJSON (simplificado)
+                    var geoJSON = wktToGeoJSON(wkt);
+                    if (geoJSON) {
+                        var layer = L.geoJSON(geoJSON, {
+                            style: {
+                                color: '#3388ff',
+                                fillColor: '#3388ff',
+                                fillOpacity: 0.2,
+                                weight: 2
+                            }
+                        }).addTo(drawnItems);
+                        map.fitBounds(layer.getBounds());
+                    }
+                } catch (e) {
+                    console.error("Error al cargar geometría:", e);
+                }
+            }
+        }
+
+        // Función simplificada para convertir WKT a GeoJSON
+        function wktToGeoJSON(wkt) {
+            if (wkt.startsWith('POLYGON')) {
+                var coords = wkt.replace(/POLYGON\(\(|\)\)/g, '').split(', ');
+                var points = coords.map(c => {
+                    var xy = c.split(' ');
+                    return [parseFloat(xy[1]), parseFloat(xy[0])]; // Lat, Lng
+                });
+                return {
+                    type: 'Polygon',
+                    coordinates: [points]
+                };
+            }
+            return null;
+        }
+
+        // Cargar geometría al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarGeometriaExistente();
+            
+            // También puedes escuchar cambios en el textbox
+            document.getElementById('<%= txtGeometriaWKT.ClientID %>').addEventListener('change', function () {
+                drawnItems.clearLayers();
+                cargarGeometriaExistente();
+            });
+        });
+     </script>
 </asp:Content>

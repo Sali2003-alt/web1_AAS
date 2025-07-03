@@ -58,29 +58,171 @@ namespace WebSA1
                 return false;
             }
         }
-        public bool ActualizarPredio(int preId, string nombrePredio, decimal areaTotalTer, decimal areaTotalConst)
+
+
+
+
+        public bool ActualizarPredio(
+            long preId,
+            string codigoCatastral,
+            DateTime fechaIngreso,
+            string codigoAnterior,
+            string numero,
+            string nombrePredio,
+            decimal areaTotalTer,
+            decimal areaTotalConst,
+            decimal fondoRelativo,
+            decimal frenteFondo,
+            string observaciones,
+            string dimTomadoPlanos,
+            string otraFuenteInfo,
+            string numNuevoBloque,
+            short? numAmpliBloque,
+            short? tipo,
+            string propiedadHorizontal,
+            short? estado,
+            int? dominio,
+            int? numHabitantes,
+            string propietarioAnterior,
+            string cartaTopografica,
+            string fotoAerea,
+            short? manId,
+            short? numFamilias,
+            decimal porcentajeDominio,
+            string detalleDominio,
+            short? tipoMixto,
+            decimal valorTipoMixto,
+            short? linderosDefinidos,
+            decimal areaTotalTerrenoAnterior,
+            string localizacionOtros,
+            short? bienMostrenco,
+            short? enConflicto,
+            decimal areaTotalTerGrafico,
+            short? propietarioDesconocido,
+            decimal areaTotalTerAlfanumerico,
+            short? dominioDetalle,
+            string direccionPrincipal,
+            decimal areaTotalConstAlfanumerico,
+            string tipoVivienda,
+            int? clasificacionVivienda,
+            DateTime? fechaModificacion,
+            short? numCelulares,
+            short? modalidadPH,
+            decimal alicuotaTotal,
+            short? tipoPH,
+            string observacionPH,
+            short? hipotecaGAD,
+            short? regimenPH,
+            short? prorrateoTitulo
+        )
+
         {
-            NpgsqlCommand comandoActualizacion = new NpgsqlCommand("catastro.sp_actualizar_cat_predio", conexion);
-            comandoActualizacion.CommandType = CommandType.StoredProcedure;
+            const string storedProcedure = "catastro.sp_actualizar_cat_predio"; 
 
-            comandoActualizacion.Parameters.AddWithValue("p_pre_id", preId);
-            comandoActualizacion.Parameters.AddWithValue("p_pre_nombre_predio", nombrePredio);
-            comandoActualizacion.Parameters.AddWithValue("p_pre_area_total_ter", areaTotalTer);
-            comandoActualizacion.Parameters.AddWithValue("p_pre_area_total_const", areaTotalConst);
-
-            try
+            // Validaciones básicas
+            if (preId <= 0)
             {
-                conexion.Open();
-                comandoActualizacion.ExecuteNonQuery();
-                conexion.Close();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ClientScript.RegisterStartupScript(this.GetType(), "Error", $"alert('Error al actualizar predio: {ex.Message}');", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "Error", "alert('ID de predio inválido');", true);
                 return false;
             }
+
+            using (var conexion = new NpgsqlConnection(this.cadenaConexion))
+            using (var comandoActualizacion = new NpgsqlCommand(storedProcedure, conexion))
+            {
+                comandoActualizacion.CommandType = CommandType.StoredProcedure;
+
+                // Configuración de parámetros
+                comandoActualizacion.Parameters.AddWithValue("p_pre_id", preId);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_codigo_catastral", GetDbValue(codigoCatastral));
+                comandoActualizacion.Parameters.AddWithValue("p_pre_fecha_ingreso", fechaIngreso);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_codigo_anterior", GetDbValue(codigoAnterior));
+                comandoActualizacion.Parameters.AddWithValue("p_pre_numero", GetDbValue(numero));
+                comandoActualizacion.Parameters.AddWithValue("p_pre_nombre_predio", GetDbValue(nombrePredio));
+                comandoActualizacion.Parameters.AddWithValue("p_pre_area_total_ter", areaTotalTer);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_area_total_const", areaTotalConst);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_fondo_relativo", fondoRelativo);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_frente_fondo", frenteFondo);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_observaciones", GetDbValue(observaciones));
+                comandoActualizacion.Parameters.AddWithValue("p_pre_dim_tomado_planos", dimTomadoPlanos ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_otra_fuente_info", otraFuenteInfo ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_num_nuevo_bloque", numNuevoBloque ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_num_ampli_bloque", numAmpliBloque ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_propiedad_horizontal", propiedadHorizontal ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_propietario_anterior", propietarioAnterior ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_foto_aerea", fotoAerea ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_propietario_desconocido", propietarioDesconocido ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_area_total_ter_alfanumerico", areaTotalTerAlfanumerico);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_direccion_principal", direccionPrincipal ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_area_total_const_alfanumerico", areaTotalConstAlfanumerico);
+                comandoActualizacion.Parameters.AddWithValue("p_opc_clasificacion_vivienda", clasificacionVivienda ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_modalidad_propiedad_horizontal", modalidadPH ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_alicuota_total_declaratoria", alicuotaTotal);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_tipo_propiedad_horizontal", tipoPH ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_regimen_propiedad_horizontal", regimenPH ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_prorrateo_titulo", prorrateoTitulo ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_estado", estado ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_dominio", dominio ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_num_habitantes", numHabitantes ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_carta_topografica", cartaTopografica ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_man_id", manId ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_num_familias", numFamilias ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_porcentaje_dominio", porcentajeDominio);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_detalle_dominio", detalleDominio ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_tipo_mixto", tipoMixto ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_valor_tipo_mixto", valorTipoMixto);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_linderos_definidos", linderosDefinidos ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_area_terreno_anterior", areaTotalTerrenoAnterior);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_localizacion_otros", localizacionOtros ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_bien_mostrenco", bienMostrenco ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_en_conflicto", enConflicto ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_area_ter_grafico", areaTotalTerGrafico);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_fecha_modificacion", fechaModificacion ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_num_celulares", numCelulares ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_tipo_vivienda", tipoVivienda ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_observacion_ph", observacionPH ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_hipoteca_gad", hipotecaGAD ?? (object)DBNull.Value);
+                comandoActualizacion.Parameters.AddWithValue("p_pre_dominio_detalle", dominioDetalle ?? (object)DBNull.Value);
+
+                try
+                {
+                    conexion.Open();
+                    int affectedRows = comandoActualizacion.ExecuteNonQuery();
+
+                    if (affectedRows > 0)
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "Exito", "alert('Predio actualizado correctamente');", true);
+                        return true;
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "Advertencia", "alert('No se encontró el predio para actualizar');", true);
+                        return false;
+                    }
+                }
+                catch (NpgsqlException ex)
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "Error", $"alert('Error al actualizar predio: {ex.Message.Replace("'", "\\'")}');", true);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "Error", $"alert('Error inesperado: {ex.Message.Replace("'", "\\'")}');", true);
+                    return false;
+                }
+            }
         }
+
+        // Método auxiliar para manejar valores nulos
+        private object GetDbValue(object value)
+        {
+            return value ?? DBNull.Value;
+        }
+
+
+
+
+
+
 
         public void consultarPredios()
         {
@@ -179,7 +321,10 @@ namespace WebSA1
 
         protected void lstPredios_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+
             int preId = Convert.ToInt32(e.CommandArgument);
+
+
 
             if (e.CommandName == "Eliminar")
             {
@@ -198,7 +343,6 @@ namespace WebSA1
                     if (reader.Read())
                     {
                         ViewState["preId"] = preId;
-
                         hfPreId.Value = preId.ToString();
                         txtCodigoCatastral.Text = reader["pre_codigo_catastral"].ToString();
                         txtCodigoAnterior.Text = reader["pre_codigo_anterior"].ToString();
@@ -217,6 +361,38 @@ namespace WebSA1
                         txtPropiedadHorizontal.Text = reader["pre_propiedad_horizontal"].ToString();
                         txtEstado.Text = reader["pre_estado"].ToString();
                         txtDominio.Text = reader["pre_dominio"].ToString();
+                        txtNumHabitantes.Text = reader["pre_num_habitantes"].ToString();
+                        txtPropietarioAnterior.Text = reader["pre_propietario_anterior"].ToString();
+                        txtClasificacionVivienda.Text = reader["opc_clasificacion_vivienda"].ToString();
+
+                        txtCartaTopografica.Text = reader["pre_carta_topografica"].ToString();
+                        txtFotoAerea.Text = reader["pre_foto_aerea"].ToString();
+                        txtManId.Text = reader["man_id"].ToString();
+                        txtNumFamilias.Text = reader["pre_num_familias"].ToString();
+                        txtPorcentajeDominio.Text = reader["pre_porcentaje_dominio"].ToString();
+                        txtDetalleDominio.Text = reader["pre_detalle_dominio"].ToString();
+                        txtTipoMixto.Text = reader["pre_tipo_mixto"].ToString();
+                        txtValorTipoMixto.Text = reader["pre_valor_tipo_mixto"].ToString();
+                        txtLinderosDefinidos.Text = reader["pre_linderos_definidos"].ToString();
+                        txtAreaTerrenoAnterior.Text = reader["pre_area_total_terreno_anterior"].ToString();
+                        txtLocalizacionOtros.Text = reader["pre_localizacion_otros"].ToString();
+                        txtBienMostrenco.Text = reader["pre_bien_mostrenco"].ToString();
+                        txtEnConflicto.Text = reader["pre_en_conflicto"].ToString();
+                        txtAreaTerGrafico.Text = reader["pre_area_total_ter_grafico"].ToString();
+                        txtPropietarioDesconocido.Text = reader["pre_propietario_desconocido"].ToString();
+                        txtAreaTerAlfa.Text = reader["pre_area_total_ter_alfanumerico"].ToString();
+                        txtDominioDetalle.Text = reader["pre_dominio_detalle"].ToString();
+                        txtDireccionPrincipal.Text = reader["pre_direccion_principal"].ToString();
+                        txtAreaConstAlfa.Text = reader["pre_area_total_const_alfanumerico"].ToString();
+                        txtTipoVivienda.Text = reader["pre_tipo_vivienda"].ToString();
+                        txtNumCelulares.Text = reader["pre_num_celulares"].ToString();
+                        txtModalidadPH.Text = reader["pre_modalidad_propiedad_horizontal"].ToString();
+                        txtAlicuotaTotal.Text = reader["pre_alicuota_total_declaratoria"].ToString();
+                        txtTipoPH.Text = reader["pre_tipo_propiedad_horizontal"].ToString();
+                        txtObservacionPH.Text = reader["pre_observacion_ph"].ToString();
+                        txtHipotecaGAD.Text = reader["pre_hipoteca_gad"].ToString();
+                        txtRegimenPH.Text = reader["pre_regimen_propiedad_horizontal"].ToString();
+                        txtProrrateoTitulo.Text = reader["pre_prorrateo_titulo"].ToString();
 
                         if (reader["pre_fecha_ingreso"] != DBNull.Value)
                             txtFechaIngreso.Text = Convert.ToDateTime(reader["pre_fecha_ingreso"]).ToString("yyyy-MM-dd");
@@ -262,33 +438,132 @@ namespace WebSA1
             txtFechaModificacion.Text = "";
         }
 
+
+
+
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (ViewState["preId"] == null) return;
 
-            int preId = Convert.ToInt32(ViewState["preId"]);
-
-            decimal areaTotalTer = 0;
-            decimal areaTotalConst = 0;
-            decimal.TryParse(txtAreaTotalTer.Text, out areaTotalTer);
-            decimal.TryParse(txtAreaTotalConst.Text, out areaTotalConst);
-
-            bool exito = this.ActualizarPredio(
-                preId,
-                txtNombrePredio.Text,
-                areaTotalTer,
-                areaTotalConst
-            );
-
-            if (exito)
+            // Validar que el ViewState contenga el ID del predio
+            if (ViewState["preId"] == null)
             {
-                LimpiarFormulario();
-                btnGuardar.Visible = true;
-                btnActualizar.Visible = false;
-                ClientScript.RegisterStartupScript(this.GetType(), "Success", "alert('Predio actualizado exitosamente');", true);
-                consultarPredios();
+                ClientScript.RegisterStartupScript(this.GetType(), "Error", "alert('No se ha seleccionado un predio para actualizar');", true);
+                return;
             }
 
+            // Obtener el ID del predio
+            int preId = Convert.ToInt32(ViewState["preId"]);
+
+            try
+            {
+                // Convertir valores con manejo seguro de errores
+                // Convertir valores con manejo seguro de errores
+                bool exito = this.ActualizarPredio(
+                    preId,
+                    txtCodigoCatastral.Text,
+                    SafeConvert.ToDateTime(txtFechaIngreso.Text),
+                    txtCodigoAnterior.Text,
+                    txtNumero.Text,
+                    txtNombrePredio.Text,
+                    SafeConvert.ToDecimal(txtAreaTotalTer.Text),
+                    SafeConvert.ToDecimal(txtAreaTotalConst.Text),
+                    SafeConvert.ToDecimal(txtFondoRelativo.Text),
+                    SafeConvert.ToDecimal(txtFrenteFondo.Text),
+                    txtObservaciones.Text,
+                    txtDimTomadoPlanos.Text,
+                    txtOtraFuenteInfo.Text,
+                    txtNumNuevoBloque.Text,
+                    SafeConvert.ToShort(txtNumAmpliBloque.Text),
+                    SafeConvert.ToShort(txtTipo.Text),
+                    txtPropiedadHorizontal.Text,
+                    SafeConvert.ToShort(txtEstado.Text),
+                    SafeConvert.ToInt(txtDominio.Text),
+                    SafeConvert.ToInt(txtNumHabitantes.Text),
+                    txtPropietarioAnterior.Text,
+                    txtCartaTopografica.Text,
+                    txtFotoAerea.Text,
+                    SafeConvert.ToShort(txtManId.Text),
+                    SafeConvert.ToShort(txtNumFamilias.Text),
+                    SafeConvert.ToDecimal(txtPorcentajeDominio.Text),
+                    txtDetalleDominio.Text,
+                    SafeConvert.ToShort(txtTipoMixto.Text),
+                    SafeConvert.ToDecimal(txtValorTipoMixto.Text),
+                    SafeConvert.ToShort(txtLinderosDefinidos.Text),
+                    SafeConvert.ToDecimal(txtAreaTerrenoAnterior.Text),
+                    txtLocalizacionOtros.Text,
+                    SafeConvert.ToShort(txtBienMostrenco.Text),
+                    SafeConvert.ToShort(txtEnConflicto.Text),
+                    SafeConvert.ToDecimal(txtAreaTerGrafico.Text),
+                    SafeConvert.ToShort(txtPropietarioDesconocido.Text),
+                    SafeConvert.ToDecimal(txtAreaTerAlfa.Text),
+                    SafeConvert.ToShort(txtDominioDetalle.Text),
+                    txtDireccionPrincipal.Text,
+                    SafeConvert.ToDecimal(txtAreaConstAlfa.Text),
+                    txtTipoVivienda.Text,
+                    SafeConvert.ToInt(txtClasificacionVivienda.Text),
+                    SafeConvert.ToDateTime(txtFechaModificacion.Text),
+                    SafeConvert.ToShort(txtNumCelulares.Text),
+                    SafeConvert.ToShort(txtModalidadPH.Text),
+                    SafeConvert.ToDecimal(txtAlicuotaTotal.Text),
+                    SafeConvert.ToShort(txtTipoPH.Text),
+                    txtObservacionPH.Text,
+                    SafeConvert.ToShort(txtHipotecaGAD.Text),
+                    SafeConvert.ToShort(txtRegimenPH.Text),
+                    SafeConvert.ToShort(txtProrrateoTitulo.Text)
+                );
+
+
+                if (exito)
+                {
+                    LimpiarFormulario();
+                    btnGuardar.Visible = true;
+                    btnActualizar.Visible = false;
+                    ClientScript.RegisterStartupScript(this.GetType(), "Success", "alert('Predio actualizado exitosamente');", true);
+                    consultarPredios();
+                }
+                else
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "Error", "alert('No se pudo actualizar el predio');", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Error", $"alert('Error al actualizar predio: {ex.Message.Replace("'", "\\'")}');", true);
+            }
+
+        }
+
+
+
+        public static class SafeConvert
+        {
+            public static DateTime ToDateTime(string value)
+            {
+                if (DateTime.TryParse(value, out DateTime result))
+                    return result;
+                return DateTime.MinValue; // o algún valor por defecto apropiado
+            }
+
+            public static decimal ToDecimal(string value)
+            {
+                if (decimal.TryParse(value, out decimal result))
+                    return result;
+                return 0m;
+            }
+
+            public static short ToShort(string value)
+            {
+                if (short.TryParse(value, out short result))
+                    return result;
+                return 0;
+            }
+
+            public static int ToInt(string value)
+            {
+                if (int.TryParse(value, out int result))
+                    return result;
+                return 0;
+            }
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -303,6 +578,8 @@ namespace WebSA1
             lstPredios.PageIndex = e.NewPageIndex;
             consultarPredios(); // Vuelve a cargar los datos para la nueva página
         }
+
+
     }
 }
 
