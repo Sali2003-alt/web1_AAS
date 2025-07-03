@@ -28,6 +28,9 @@
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
    
 
+      <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
+
+
 
         <!-- validacion -->
         <script src="assets/js/jquery.validate.min.js' %}"></script>
