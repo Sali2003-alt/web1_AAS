@@ -1,0 +1,2 @@
+C:\Users\Sali\Documents\GitHub\web1_AAS\WebSA1\WebSA1\obj\Debug\WebSA1.csproj.AssemblyReference.cache
+C:\Users\Sali\Documents\GitHub\web1_AAS\WebSA1\WebSA1\obj\Debug\WebSA1.csproj.CoreCompileInputs.cache
