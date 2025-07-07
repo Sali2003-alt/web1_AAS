@@ -30,6 +30,7 @@
 
       <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
         <!-- validacion -->
@@ -151,8 +152,8 @@
             <div class="sidebar-header">
                 <div class="d-flex justify-content-between">
                     <div class="logo">
-                        <a href="index.html">
-                            <img src="assets/images/logo/logo4.png" alt="Logo" class="img-fluid mb-4" style="width: 200px; height: auto;" srcset="">
+                        <a href="/">
+                            <img src="img/escu.png" alt="Logo" class="img-fluid mb-4" style="width: 650px; height: auto;" srcset="">
                         </a>
                     </div>
                     <div class="toggler">
@@ -164,28 +165,36 @@
             </div>
             <div class="sidebar-menu">
                 <ul class="menu">
-                    <li class="sidebar-title">Menu</li>
+                    <li class="sidebar-title" style="font-size: 1.5rem;">Menu</li>
 
-                    <li class="sidebar-item active ">
+                    <li class="sidebar-item ">
                         <a href="Default.aspx" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
+                            <i class="bi bi-house-fill" style="margin-top: -14px;"></i>
                             <span>Inicio</span>
                         </a>
                     </li>
+                    <br />
 
-                    <li class="sidebar-title">Formulario &amp; Tablas</li>
+                    <li class="sidebar-title"style="font-size: 1.5rem;">Formulario &amp; Tablas</li>
 
                     <li class="sidebar-item">
                         <a href="Cat_predio.aspx" class='sidebar-link'>
-                            <i class="bi bi-geo-alt-fill"></i>
+                            <i class="bi bi-geo-alt-fill" style="margin-top: -14px;"></i>
                             <span>Predio</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="Propietarios.aspx" class="sidebar-link">
+                            <i class="bi bi-person-badge-fill" style="margin-top: -14px;"></i>
+                            <span>Propietarios</span>
                         </a>
                     </li>
                     
                 </ul>
             </div>
             <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-        </div>
+        </div>  
     </div>
 </div>
 

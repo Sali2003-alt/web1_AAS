@@ -144,8 +144,10 @@
 
             <br />
             <br />
-            <h2>Listado de Predios</h2>
-
+<div class="container d-flex justify-content-start align-items-center" style="margin-left: -15%;">
+    <div class="col-md-8">
+        <h2 class="text-center mb-4">Listado de Propietarios</h2>
+        <br />
             <asp:GridView ID="lstPredios" runat="server"
                 CssClass="table table-bordered table-striped table-hover text-center align-middle shadow-sm"
                 AutoGenerateColumns="False"
@@ -164,9 +166,6 @@
                     <asp:BoundField DataField="pre_area_total_ter" HeaderText="Área Terreno" DataFormatString="{0:N2}" />
                     <asp:BoundField DataField="pre_area_total_const" HeaderText="Área Construcción" DataFormatString="{0:N2}" />
                     <asp:BoundField DataField="pre_estado" HeaderText="Estado" />
-                    <asp:BoundField DataField="pre_num_habitantes" HeaderText="# Habitantes" />
-                    <asp:BoundField DataField="pre_num_familias" HeaderText="# Familias" />
-                    <asp:BoundField DataField="pre_tipo_vivienda" HeaderText="Tipo Vivienda" />
                     <asp:BoundField DataField="pre_direccion_principal" HeaderText="Dirección Principal" />
                     <asp:BoundField DataField="pre_fecha_ingreso" HeaderText="Fecha Ingreso" DataFormatString="{0:yyyy-MM-dd}" />
                     <asp:BoundField DataField="pre_fecha_modificacion" HeaderText="Fecha Modificación" DataFormatString="{0:yyyy-MM-dd}" />
@@ -184,6 +183,17 @@
                             </div>
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Mapa">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="btnVerMapa" runat="server" CssClass="btn btn-sm btn-outline-success"
+                            CommandName="VerMapa"
+                            CommandArgument='<%# Eval("pre_id") %>'
+                            ToolTip="Ver ubicación en el mapa">
+                            <i class="bi bi-geo-alt-fill"></i> <!-- Bootstrap Icons -->
+                        </asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
                 </Columns>
 
             </asp:GridView>

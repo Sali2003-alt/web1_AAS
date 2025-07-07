@@ -179,7 +179,35 @@ namespace WebSA1
 
         protected void lstPredios_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int preId = Convert.ToInt32(e.CommandArgument);
+            int preId = Convert.ToInt32(e.CommandArgument); // Declarada una vez aquí
+
+            if (e.CommandName == "VerMapa")
+            {
+                try
+                {
+                    using (var cmd = new NpgsqlCommand("SELECT ST_AsGeoJSON(ST_Transform(geometria, 4326)) FROM catastro.cat_predio WHERE pre_id = @preId", conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@preId", preId);
+                        conexion.Open();
+                        string geoJson = cmd.ExecuteScalar()?.ToString();
+                        conexion.Close();
+
+                        if (!string.IsNullOrEmpty(geoJson))
+                        {
+                            Session["GeoJsonPredio"] = geoJson;
+                            Response.Redirect("MapaPredio.aspx");
+                        }
+                        else
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "Error", "alert('No se encontró geometría para este predio.');", true);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "Error", $"alert('Error al obtener la geometría: {ex.Message}');", true);
+                }
+            }
 
             if (e.CommandName == "Eliminar")
             {
