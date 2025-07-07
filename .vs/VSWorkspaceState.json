@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\WebSA1"
+    "\\WebSA1",
+    "\\WebSA1\\WebSA1"
   ],
-  "SelectedNode": "\\WebSA1\\Cat_predio.aspx",
+  "SelectedNode": "\\WebSA1\\Propietarios.aspx.cs",
   "PreviewInSolutionExplorer": false
 }

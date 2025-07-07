@@ -267,7 +267,6 @@ C:\Users\Sali\Documents\GitHub\web1_AAS\WebSA1\obj\Debug\WebSA1.csproj.CopyCompl
 C:\Users\Sali\Documents\GitHub\web1_AAS\WebSA1\obj\Debug\WebSA1.dll
 C:\Users\Sali\Documents\GitHub\web1_AAS\WebSA1\obj\Debug\WebSA1.pdb
 =======
-<<<<<<< HEAD
 C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\bin\WebSA1.dll.config
 C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\bin\WebSA1.dll
 C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\bin\WebSA1.pdb
@@ -357,7 +356,6 @@ C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\obj\Debug\WebSA1.csproj.CoreC
 C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\obj\Debug\WebSA1.csproj.CopyComplete
 C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\obj\Debug\WebSA1.dll
 C:\Users\Acer Nitro 5\Source\Repos\web1_AAS\WebSA1\obj\Debug\WebSA1.pdb
-=======
 C:\Users\Sali\Source\Repos\web1_AAS\WebSA1\bin\WebSA1.dll.config
 C:\Users\Sali\Source\Repos\web1_AAS\WebSA1\bin\WebSA1.dll
 C:\Users\Sali\Source\Repos\web1_AAS\WebSA1\bin\WebSA1.pdb
